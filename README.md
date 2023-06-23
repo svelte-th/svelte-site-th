@@ -1,3 +1,48 @@
+# Svelte site Thai translation
+[Svelte](https://github.com/sveltejs/svelte) (ซอร์สโค้ดอย่างเป็นทางการ)
+โปรเจ็คต์นี้เป็นโปรเจ็คต์สำหรับการแปลภาษาของเว็บไซต์  [svelte.dev](https://svelte.dev/) ให้เป็นภาษาไทย
+
+**เว็บไซต์สำหรับเข้าใช้งานภาษาไทย URL: [https://svelte.in.th/](https://svelte.in.th/)**
+
+Svelte เป็น Javascript framework ใหม่ซึ่งมีจุดเด่นอยู่ที่ใช้งานง่ายและมีการทำงานกับ DOM โดยตรง ทั้งนี้เว็บไซต์ทางการก็มีทั้งเอกสารและแบบฝึกหัดต่าง ๆ ที่ทำให้ง่ายต่อการเรียนรู้และทำความเข้าใจตัว Svelte เองได้อย่างยอดเยี่ยม แต่เนื่องจากเว็บไซต์หลักอย่างเป็นทางการนั้นจะเป็นภาษาอังกฤษ ทางทีมงานของเราจึงอยากทำการแปลภาษาให้เป็นภาษาไทยทั้งหมดเพื่อทำให้โปรแกรมเมอร์ชาวไทย ทำความเข้าใจได้ง่ายมากยิ่งขึ้น!
+
+## การมีส่วนร่วม(Contribution)
+
+ทีมงานยินดีต้อนรับการมีส่วนร่วมของคุณในโครงการการแปลนี้!
+โดยการมีส่วนร่วมมีหลายรูปแบบ ไม่เพียงแค่การแปลเท่านั้น แต่ยังรวมถึงรายงานการพิมพ์ผิด การตกหล่น และการแปลผิด คำแนะนำสำหรับการแปลที่ดีขึ้น การขอให้แปลหน้าต่าง ๆ และความคิดเห็นอื่น ๆ เพื่อปรับปรุงเว็บไซต์ Svelte Thai ให้ดียิ่งขึ้น
+
+หากสนใจให้คุณเข้าไปดูรายละเอียดอื่น ๆ ได้ที่ [CONTRIBUTING_th.md](https://github.com/svelte-th/svelte-site-th/blob/master/CONTRIBUTING_th.md)
+
+
+<!---## ผู้มีส่วนร่วม (Contributors) ✨
+
+นี่คือผู้ร่วมให้ข้อมูลทั้งหมดที่มีส่วนร่วมในการแปลภาษาไทย!
+ทีมงานเราขอขอบคุณเป็นอย่างยิ่ง! ([emoji key](https://allcontributors.org/docs/en/emoji-key)): -->
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!---<table>
+  <tr>
+    <td align="center"><a href="https://github.com/tomoam"><img src="https://avatars.githubusercontent.com/u/29677552?v=4?s=100" width="100px;" alt=""/><br /><sub><b>tomoam</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=tomoam" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/myLifeAsaDog"><img src="https://avatars.githubusercontent.com/u/18300178?v=4?s=100" width="100px;" alt=""/><br /><sub><b>myLifeAsaDog</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=myLifeAsaDog" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Makohan"><img src="https://avatars.githubusercontent.com/u/32333141?v=4?s=100" width="100px;" alt=""/><br /><sub><b>mkin</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=Makohan" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://qiita.com/jay-es"><img src="https://avatars.githubusercontent.com/u/46585162?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Jun Shindo</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=jay-es" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://speakerdeck.com/clown0082"><img src="https://avatars.githubusercontent.com/u/4125257?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Keeth Kuwahara</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=kkeeth" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/oekazuma"><img src="https://avatars.githubusercontent.com/u/29580221?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Kazuma Oe</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=oekazuma" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Shunpoco"><img src="https://avatars.githubusercontent.com/u/25903627?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shunpoco</b></sub></a><br /><a href="https://github.com/svelte-jp/svelte-site-jp/commits?author=Shunpoco" title="Documentation">📖</a></td>
+  </tr>
+</table>-->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+ในส่วนถัดไปจะเป็นเนื้อหาของไฟล์ README.md อย่างเป็นทางการของ Svelte
+
+---
+
 [![Cybernetically enhanced web apps: Svelte](https://sveltejs.github.io/assets/banner.png)](https://svelte.dev)
 
 [![license](https://img.shields.io/npm/l/svelte.svg)](LICENSE.md) [![Chat](https://img.shields.io/discord/457912077277855764?label=chat&logo=discord)](https://svelte.dev/chat)
