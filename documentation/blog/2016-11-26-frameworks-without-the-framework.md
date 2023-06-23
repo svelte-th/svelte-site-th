@@ -1,51 +1,54 @@
 ---
-title: "Frameworks without the framework: why didn't we think of this sooner?"
-description: You can't write serious applications in vanilla JavaScript without hitting a complexity wall. But a compiler can do it for you.
+title: "Frameworks ที่ไม่มี framework: ทำไมไม่มีใครคิดถึงมันก่อนหน้านี้?"
+description: คุณไม่สามารถที่จะเขียน application ดีๆสักตัวใน vanilla JavaScript โดยไม่เจอปัญหาที่ยุ่งยาก แต่ compiler มันสามารถทำให้คุณได้
 author: Rich Harris
 authorURL: https://twitter.com/Rich_Harris
 ---
 
-> Wait, this new framework has a _runtime_? Ugh. Thanks, I'll pass.
+``` 
+> การแปล: Svelte Thailand Community
+> ต้นฉบับ: [https://svelte.dev/blog/sveltekit-beta](https://svelte.dev/blog/frameworks-without-the-framework)
+>
+> เวอร์ชันภาษาไทยมีไว้เพื่อเป็นข้อมูลอ้างอิงเพื่อความเข้าใจที่ดีขึ้นของข้อความต้นฉบับ
+> ดูต้นฉบับบน svelte.dev สำหรับรายละเอียดที่ถูกต้องและแน่นอน
+> หากมีเนื้อหาที่ทำให้เข้าใจผิดในการแปลภาษาไทย โปรดแจ้งให้เราทราบจากผ่านทาง [การสร้าง Issue]([https://github.com/svelte-jp/svelte-site-jp](https://github.com/svelte-th/svelte-site-th/issues?q=is%3Aopen+is%3Aissue+label%3Atranslate+))
+```
+
+> เดี๋ยวนะ, เจ้า framwork ตัวใหม่นี้มันมี... _runtime_ เอิ่มมม. โอเค งั้นฉันขอผ่าน
 > **– front end developers in 2018**
 
-We're shipping too much code to our users. Like a lot of front end developers, I've been in denial about that fact, thinking that it was fine to serve 100kb of JavaScript on page load – just use [one less .jpg!](https://twitter.com/miketaylr/status/227056824275333120) – and that what _really_ mattered was performance once your app was already interactive.
+เราจัดส่งรหัสไปยังผู้ใช้ของเรามากเกินไป เช่นเดียวกับนักพัฒนาฟรอนต์เอนด์จำนวนมาก ฉันเคยปฏิเสธเกี่ยวกับข้อเท็จจริงนั้น โดยคิดว่ามันเป็นเรื่องปกติที่จะให้บริการ JavaScript ขนาด 100kb ในการโหลดหน้าเว็บ – แค่ใช้ [one less .jpg!](https://twitter.com/ miketaylr/status/227056824275333120) – และสิ่งที่สำคัญ _really_ สำคัญคือประสิทธิภาพเมื่อแอปของคุณมีการโต้ตอบแล้ว
 
-But I was wrong. 100kb of .js isn't equivalent to 100kb of .jpg. It's not just the network time that'll kill your app's startup performance, but the time spent parsing and evaluating your script, during which time the browser becomes completely unresponsive. On mobile, those milliseconds rack up very quickly.
+แต่ฉันคิดผิด 100kb ของ .js ไม่เท่ากับ 100kb ของ .jpg ไม่ใช่แค่เวลาเครือข่ายเท่านั้นที่จะหยุดประสิทธิภาพการเริ่มต้นแอปของคุณ แต่เวลาที่ใช้ในการแยกวิเคราะห์และประเมินสคริปต์ของคุณ ซึ่งในระหว่างนั้นเบราว์เซอร์จะไม่ตอบสนองโดยสิ้นเชิง บนมือถือ มิลลิวินาทีเหล่านั้นเพิ่มขึ้นเร็วมาก
 
-If you're not convinced that this is a problem, follow [Alex Russell](https://twitter.com/slightlylate) on Twitter. Alex [hasn't been making many friends in the framework community lately](https://twitter.com/slightlylate/status/728355959022587905), but he's not wrong. But the proposed alternative to using frameworks like Angular, React and Ember – [Polymer](https://www.polymer-project.org/1.0/) – hasn't yet gained traction in the front end world, and it's certainly not for a lack of marketing.
+หากคุณไม่มั่นใจว่านี่เป็นปัญหา โปรดติดตาม [Alex Russell](https://twitter.com/slightlylate) บน Twitter อเล็กซ์ [ช่วงนี้ไม่ค่อยได้เพื่อนในชุมชนเฟรมเวิร์ก](https://twitter.com/slightlylate/status/728355959022587905) แต่เขาไม่ผิด แต่ทางเลือกที่เสนอเพื่อใช้เฟรมเวิร์กเช่น Angular, React และ Ember – [Polymer](https://www.polymer-project.org/1.0/) – ยังไม่ได้รับแรงฉุดในโลกส่วนหน้า และแน่นอนว่าไม่ใช่ เพราะขาดการตลาด
 
-Perhaps we need to rethink the whole thing.
+บางทีเราต้องคิดใหม่ทั้งหมด
 
-## What problem do frameworks _really_ solve?
+## frameworks _really_ แก้ปัญหาอะไรได้บ้าง?
 
-The common view is that frameworks make it easier to manage the complexity of your code: the framework abstracts away all the fussy implementation details with techniques like virtual DOM diffing. But that's not really true. At best, frameworks _move the complexity around_, away from code that you had to write and into code you didn't.
+มุมมองทั่วไปคือเฟรมเวิร์กทำให้การจัดการความซับซ้อนของโค้ดของคุณง่ายขึ้น: เฟรมเวิร์กจะแยกรายละเอียดการใช้งานจุกจิกทั้งหมดออกไปด้วยเทคนิคต่างๆ เช่น การกระจาย DOM เสมือน แต่นั่นไม่ใช่ความจริงเลย อย่างดีที่สุด เฟรมเวิร์กจะ_ย้ายความซับซ้อนรอบๆ_ ออกจากโค้ดที่คุณต้องเขียนและเปลี่ยนเป็นโค้ดที่คุณไม่ได้เขียน
 
-Instead, the reason that ideas like React are so wildly and deservedly successful is that they make it easier to manage the complexity of your _concepts_. Frameworks are primarily a tool for structuring your thoughts, not your code.
+เหตุผลที่แนวคิดอย่าง React นั้นประสบความสำเร็จอย่างมากและสมควรได้รับก็คือ มันช่วยให้การจัดการความซับซ้อนของ _concepts_ ของคุณง่ายขึ้น กรอบงานเป็นเครื่องมือหลักสำหรับจัดโครงสร้างความคิดของคุณ ไม่ใช่รหัสของคุณ
 
-Given that, what if the framework _didn't actually run in the browser_? What if, instead, it converted your application into pure vanilla JavaScript, just like Babel converts ES2016+ to ES5? You'd pay no upfront cost of shipping a hefty runtime, and your app would get seriously fast, because there'd be no layers of abstraction between your app and the browser.
+จะเกิดอะไรขึ้นถ้าเฟรมเวิร์ก _ไม่ได้ทำงานในเบราว์เซอร์_ จะเกิดอะไรขึ้นถ้ามันแปลงแอปพลิเคชันของคุณเป็นวานิลลาจาวาสคริปต์แทน เหมือนกับที่ Babel แปลง ES2016+ เป็น ES5 คุณไม่ต้องเสียค่าใช้จ่ายล่วงหน้าในการจัดส่งรันไทม์จำนวนมาก และแอปของคุณจะทำงานได้อย่างรวดเร็ว เนื่องจากไม่มีการแยกชั้นระหว่างแอปและเบราว์เซอร์
 
-## Introducing Svelte
+## แนะนำ Svelte
 
-Svelte is a new framework that does exactly that. You write your components using HTML, CSS and JavaScript (plus a few extra bits you can [learn in under 5 minutes](https://v2.svelte.dev/guide)), and during your build process Svelte compiles them into tiny standalone JavaScript modules. By statically analysing the component template, we can make sure that the browser does as little work as possible.
+Svelte เป็นเฟรมเวิร์กใหม่ที่ทำอย่างนั้น คุณเขียนส่วนประกอบโดยใช้ HTML, CSS และ JavaScript (รวมถึงบิตพิเศษอีกสองสามบิตที่คุณสามารถ [เรียนรู้ได้ภายใน 5 นาที](https://v2.svelte.dev/guide)) และในระหว่างกระบวนการสร้าง Svelte จะคอมไพล์ส่วนประกอบเหล่านั้นให้มีขนาดเล็ก โมดูล JavaScript แบบสแตนด์อโลน ด้วยการวิเคราะห์เทมเพลตคอมโพเนนต์แบบคงที่ เราสามารถทำให้แน่ใจว่าเบราว์เซอร์ทำงานน้อยที่สุดเท่าที่จะเป็นไปได้
 
-The [Svelte implementation of TodoMVC](https://svelte-todomvc.surge.sh/) weighs 3.6kb zipped. For comparison, React plus ReactDOM _without any app code_ weighs about 45kb zipped. It takes about 10x as long for the browser just to evaluate React as it does for Svelte to be up and running with an interactive TodoMVC.
+[การใช้งาน Svelte ของ TodoMVC](https://svelte-todomvc.surge.sh/) มีน้ำหนัก 3.6kb ซิป สำหรับการเปรียบเทียบ React และ ReactDOM _ไม่มีรหัสแอปใด ๆ_ มีน้ำหนักซิปประมาณ 45kb เบราว์เซอร์ใช้เวลาประมาณ 10 เท่าในการประเมิน React เช่นเดียวกับ Svelte ในการเริ่มต้นใช้งาน TodoMVC แบบโต้ตอบ
 
-And once your app _is_ up and running, according to [js-framework-benchmark](https://github.com/krausest/js-framework-benchmark) **Svelte is fast as heck**. It's faster than React. It's faster than Vue. It's faster than Angular, or Ember, or Ractive, or Preact, or Riot, or Mithril. It's competitive with Inferno, which is probably the fastest UI framework in the world, for now, because [Dominic Gannaway](https://twitter.com/trueadm) is a wizard. (Svelte is slower at removing elements. We're [working on it](https://github.com/sveltejs/svelte/issues/26).)
+และเมื่อแอปของคุณ _is_ เปิดใช้งานแล้ว ตาม [js-framework-benchmark](https://github.com/krausest/js-framework-benchmark) **Svelte นั้นเร็วมาก** มันเร็วกว่าปฏิกิริยา มันเร็วกว่า Vue มันเร็วกว่า Angular หรือ Ember หรือ Ractive หรือ Preact หรือ Riot หรือ Mithril สามารถแข่งขันกับ Inferno ซึ่งน่าจะเป็นเฟรมเวิร์ก UI ที่เร็วที่สุดในโลกในขณะนี้ เพราะ [Dominic Gannaway](https://twitter.com/trueadm) เป็นตัวช่วย (Svelte ช้ากว่าในการลบองค์ประกอบ เรากำลัง [ดำเนินการแก้ไข](https://github.com/sveltejs/svelte/issues/26))
 
-It's basically as fast as vanilla JS, which makes sense because it _is_ vanilla JS – just vanilla JS that you didn't have to write.
+โดยพื้นฐานแล้วมันเร็วพอๆ กับวานิลลา JS ซึ่งก็สมเหตุสมผลเพราะมันคือ _is_ vanilla JS – แค่วานิลลา JS ที่คุณไม่ต้องเขียน
 
-## But that's not the important thing
+## แต่นั่นไม่ใช่สิ่งสำคัญ
 
-Well, it _is_ important – performance matters a great deal. What's really exciting about this approach, though, is that we can finally solve some of the thorniest problems in web development.
+มัน _is_ สำคัญ - ประสิทธิภาพมีความสำคัญอย่างมาก สิ่งที่น่าตื่นเต้นจริงๆ เกี่ยวกับแนวทางนี้คือ ในที่สุดเราก็สามารถแก้ปัญหาที่ยุ่งยากที่สุดในการพัฒนาเว็บได้ในที่สุด
 
-Consider interoperability. Want to `npm install cool-calendar-widget` and use it in your app? Previously, you could only do that if you were already using (a correct version of) the framework that the widget was designed for – if `cool-calendar-widget` was built in React and you're using Angular then, well, hard cheese. But if the widget author used Svelte, apps that use it can be built using whatever technology you like. (On the TODO list: a way to convert Svelte components into web components.)
+พิจารณาการทำงานร่วมกัน ต้องการ `npm install cool-calendar-widget` และใช้ในแอพของคุณหรือไม่? ก่อนหน้านี้ คุณจะทำได้ก็ต่อเมื่อคุณใช้ (เวอร์ชันที่ถูกต้อง) เฟรมเวิร์กที่วิดเจ็ตได้รับการออกแบบมา ถ้า `cool-calendar-widget` ถูกสร้างขึ้นใน React และคุณใช้ Angular อยู่ล่ะก็ ยากมาก ชีส. แต่ถ้าผู้เขียนวิดเจ็ตใช้ Svelte แอปที่ใช้วิดเจ็ตจะสามารถสร้างโดยใช้เทคโนโลยีใดก็ได้ที่คุณต้องการ (ในรายการสิ่งที่ต้องทำ: วิธีการแปลงส่วนประกอบ Svelte เป็นส่วนประกอบของเว็บ)
 
-Or [code splitting](https://twitter.com/samccone/status/797528710085652480). It's a great idea (only load the code the user needs for the initial view, then get the rest later), but there's a problem – even if you only initially serve one React component instead of 100, _you still have to serve React itself_. With Svelte, code splitting can be much more effective, because the framework is embedded in the component, and the component is tiny.
+หรือ [การแยกโค้ด](https://twitter.com/samccone/status/797528710085652480) เป็นความคิดที่ดี (โหลดเฉพาะโค้ดที่ผู้ใช้ต้องการสำหรับมุมมองเริ่มต้น จากนั้นรับส่วนที่เหลือในภายหลัง) แต่มีปัญหา – แม้ว่าคุณจะให้บริการองค์ประกอบ React เพียงองค์ประกอบเดียวในตอนแรกแทนที่จะเป็น 100 คุณก็ยังต้องให้บริการ React เอง_ ด้วย Svelte การแยกโค้ดจะมีประสิทธิภาพมากขึ้น เนื่องจากเฟรมเวิร์กถูกฝังอยู่ในส่วนประกอบ และส่วนประกอบมีขนาดเล็ก
 
-Finally, something I've wrestled with a great deal as an open source maintainer: your users always want _their_ features prioritised, and underestimate the cost of those features to people who don't need them. A framework author must always balance the long-term health of the project with the desire to meet their users' needs. That's incredibly difficult, because it's hard to anticipate – much less articulate – the consequences of incremental bloat, and it takes serious soft skills to tell people (who may have been enthusiastically evangelising your tool up to that point) that their feature isn't important enough. But with an approach like Svelte's, many features can be added with absolutely no cost to people who don't use them, because the code that implements those features just doesn't get generated by the compiler if it's unnecessary.
-
-## We're just getting started
-
-Svelte is very new. There's a lot of work still left to do – creating build tool integrations, adding a server-side renderer, hot reloading, transitions, more documentation and examples, starter kits, and so on.
-
-But you can already build rich components with it, which is why we've gone straight to a stable 1.0.0 release. [Read the guide](https://v2.svelte.dev/guide), [try it out in the REPL](/repl), and head over to [GitHub](https://github.com/sveltejs/svelte) to help kickstart the next era of front end development.
+สุดท้ายนี้ บางอย่างที่ฉันได้ต่อสู้กับการจัดการที่ดีในฐานะผู้ดูแลโอเพนซอร์ส: ผู้ใช้ของคุณต้องการให้ฟีเจอร์ _their_ ได้รับการจัดลำดับความสำคัญเสมอ และประเมินต้นทุนของฟีเจอร์เหล่านั้นต่ำเกินไป
